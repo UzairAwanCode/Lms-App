@@ -59,7 +59,7 @@ const TutorHome = () => {
                   color: focused ? THEME_COLOR : TEXT_COLOR,
                   fontSize: size,
                 }}>
-                {'History'}
+                {'Course Sell'}
               </Text>
             );
           },
