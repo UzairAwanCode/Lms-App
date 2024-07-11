@@ -1,12 +1,61 @@
-import React from 'react';
+import {
+  GoogleSignin,
+  statusCodes,
+} from '@react-native-google-signin/google-signin';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import React, {useEffect} from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
 import {BG_COLOR, TEXT_COLOR, WHITE} from '../../utils/Colors';
-import {useNavigation, useRoute} from '@react-navigation/native';
+import firestore, { firebase } from '@react-native-firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
-  const router = useRoute();
+  const route = useRoute();
   const navigation = useNavigation();
+  const _signIn = async () => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log(userInfo);
+      storeData(userInfo);
+    } catch (error) {
+      if (isErrorWithCode(error)) {
+        switch (error.code) {
+          case statusCodes.SIGN_IN_CANCELLED:
+            // user cancelled the login flow
+            break;
+          case statusCodes.IN_PROGRESS:
+            // operation (eg. sign in) already in progress
+            break;
+          case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
+            // play services not available or outdated
+            break;
+          default:
+          // some other error happened
+        }
+      } else {
+        // an error that's not related to google sign in occurred
+      }
+    }
+  };
+
+  useEffect(() => {
+    GoogleSignin.configure();
+  }, []);
+
+  const storeData = async (data) => {
+    const collection = route.params.screen == 'tutor' ? 'tutors' : 'learners';
+    console.log(data);
+    await firebase.initializeApp()
+    await firestore().collection(collection).doc(data.user.id).set(data);
+    await AsyncStorage.setItem('NAME', data.user.name);
+    await AsyncStorage.setItem('EMAIL', data.user.email);
+    await AsyncStorage.setItem('USERID', data.user.id);
+    if (route.params.screen == 'tutor') {
+      navigation.navigate('TutorHome');
+    }
+  };
   return (
     <View style={styles.container}>
       <Image
@@ -17,9 +66,7 @@ const Login = () => {
       <TouchableOpacity
         style={styles.loginBtn}
         onPress={() => {
-          if (router.params.screen === 'tutor') {
-            navigation.navigate('TutorHome');
-          }
+          _signIn();
         }}>
         <Image
           source={require('../../../assets/google.png')}

@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {
-    moderateScale,
-    moderateVerticalScale,
-    verticalScale,
+  moderateScale,
+  moderateVerticalScale,
+  verticalScale,
 } from 'react-native-size-matters';
-import { TEXT_COLOR, WHITE } from '../utils/Colors';
+import {TEXT_COLOR, WHITE} from '../utils/Colors';
 
 const HistoryItem = ({item, index, data}) => {
   return (
