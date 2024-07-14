@@ -1,14 +1,14 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
 import {
   GoogleSignin,
   statusCodes,
 } from '@react-native-google-signin/google-signin';
-import {useNavigation, useRoute} from '@react-navigation/native';
-import React, {useEffect} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
-import {BG_COLOR, TEXT_COLOR, WHITE} from '../../utils/Colors';
-import firestore, { firebase } from '@react-native-firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { moderateScale, scale, verticalScale } from 'react-native-size-matters';
+import { BG_COLOR, TEXT_COLOR, WHITE } from '../../utils/Colors';
 
 const Login = () => {
   const route = useRoute();
@@ -44,10 +44,8 @@ const Login = () => {
     GoogleSignin.configure();
   }, []);
 
-  const storeData = async (data) => {
+  const storeData = async data => {
     const collection = route.params.screen == 'tutor' ? 'tutors' : 'learners';
-    console.log(data);
-    await firebase.initializeApp()
     await firestore().collection(collection).doc(data.user.id).set(data);
     await AsyncStorage.setItem('NAME', data.user.name);
     await AsyncStorage.setItem('EMAIL', data.user.email);

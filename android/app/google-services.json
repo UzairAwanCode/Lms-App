@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "832229097569",
-    "project_id": "rnlmsapp-40e14",
-    "storage_bucket": "rnlmsapp-40e14.appspot.com"
+    "project_number": "757298948017",
+    "project_id": "rnlmsapp-e9b2d",
+    "storage_bucket": "rnlmsapp-e9b2d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:832229097569:android:0729d23988155bee6d6a20",
+        "mobilesdk_app_id": "1:757298948017:android:1a07a09efd5c39f5543f90",
         "android_client_info": {
           "package_name": "com.rnlmsapp"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCzThDcbF5ekPchAMrN1dqDlhvkhg2CRxY"
+          "current_key": "AIzaSyCuKYGmHwZ6mO8RWi4fETXnfCvH7fBN67A"
         }
       ],
       "services": {
