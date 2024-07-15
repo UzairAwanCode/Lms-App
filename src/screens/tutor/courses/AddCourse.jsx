@@ -17,20 +17,63 @@ import {
 import {TEXT_COLOR, WHITE} from '../../../utils/Colors';
 import CustomInput from '../../../components/CustomInput';
 import BgButton from '../../../components/BgButton';
+import { launchCamera } from 'react-native-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
+import { useNavigation } from '@react-navigation/native';
 
 const AddCourse = () => {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState('');
   const [isActive, setIsActive] = useState(true);
+  const [bannerImage, setBannerImage] = useState()
+  const navigation = useNavigation()
+
+  const addBanner = async()=>{
+    const res = await launchCamera({mediaType:'photo'})
+    if(!res.didCancel){
+      setBannerImage(res)
+    }
+  }
+
+  const uploadCourse = async()=>{
+    const name = await AsyncStorage.getItem("NAME")
+    const email = await AsyncStorage.getItem("EMAIL")
+    const userId = await AsyncStorage.getItem("USERID")
+
+    const reference = storage().ref(bannerImage.assets[0].fileName)
+    const pathToFile = bannerImage.assets[0].uri
+
+    await reference.putFile(pathToFile)
+    const url = await storage().ref(bannerImage.assets[0].fileName).getDownloadURL()
+    await firestore().collection('courses').add({
+      title: title,
+      description: desc,
+      price: price,
+      isActive: isActive,
+      banner: url,
+      userName: name,
+      userEmail: email,
+      userId: userId
+    });
+    navigation.goBack()
+  }
+
   return (
     <ScrollView style={styles.container}>
-      <TouchableOpacity style={styles.bannerView}>
-        <Image
-          style={styles.add}
-          source={require('../../../../assets/plus-black.png')}
-        />
-        <Text style={styles.addText}>Add Course Banner</Text>
+      <TouchableOpacity style={styles.bannerView} onPress={()=>addBanner()}>
+        {
+          bannerImage!=null ? <Image source={{uri:bannerImage.assets[0].uri}} style={styles.banner}/> :
+        <View style={styles.bannerImageContainer}>
+          <Image
+            style={styles.add}
+            source={require('../../../../assets/plus-black.png')}
+          />
+          <Text style={styles.addText}>Add Course Banner</Text>
+        </View>
+        }
       </TouchableOpacity>
       <CustomInput
         placeholder="Enter Course Title"
@@ -60,7 +103,7 @@ const AddCourse = () => {
         <Switch value={isActive} onValueChange={value => setIsActive(value)} />
       </View>
       <View style={styles.gap}>
-        <BgButton title={'Upload Course'} color={WHITE} />
+        <BgButton onClick={()=>uploadCourse()} title={'Upload Course'} color={WHITE} />
       </View>
     </ScrollView>
   );
@@ -102,5 +145,16 @@ const styles = StyleSheet.create({
   },
   gap:{
     marginBottom: moderateVerticalScale(100)
+  },
+  bannerImageContainer:{
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  banner:{
+    width: "100%",
+    height: "100%",
+    borderRadius:moderateScale(8)
   }
 });

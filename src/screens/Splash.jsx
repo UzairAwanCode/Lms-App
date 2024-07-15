@@ -3,14 +3,25 @@ import { View, Text, StatusBar, StyleSheet, Image } from 'react-native';
 import { TEXT_COLOR, THEME_COLOR } from '../utils/Colors';
 import { SPLASH_TAGLINE } from '../utils/Strings';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Splash = () => {
   const navigation = useNavigation()
   useEffect(()=>{
     setTimeout(()=>{
-      navigation.navigate("ChooseUserType")
+      check()
     },2000)
   },[])
+
+  const check = async()=>{
+    const userId = await AsyncStorage.getItem("USERID")
+    if(userId!=null){
+      navigation.navigate("TutorHome")
+    }
+    else{
+      navigation.navigate("ChooseUserType")
+    }
+  }
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor={THEME_COLOR}/>

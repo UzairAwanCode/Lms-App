@@ -17,7 +17,6 @@ const Login = () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
       storeData(userInfo);
     } catch (error) {
       if (isErrorWithCode(error)) {
