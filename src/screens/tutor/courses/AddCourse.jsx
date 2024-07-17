@@ -22,13 +22,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import { useNavigation } from '@react-navigation/native';
+import Loader from '../../../components/Loader';
 
 const AddCourse = () => {
   const [title, setTitle] = useState('');
   const [desc, setDesc] = useState('');
   const [price, setPrice] = useState('');
   const [isActive, setIsActive] = useState(true);
-  const [bannerImage, setBannerImage] = useState()
+  const [bannerImage, setBannerImage] = useState(null)
+  const [loading, setLoading] = useState(false)
   const navigation = useNavigation()
 
   const addBanner = async()=>{
@@ -39,6 +41,7 @@ const AddCourse = () => {
   }
 
   const uploadCourse = async()=>{
+    setLoading(true)
     const name = await AsyncStorage.getItem("NAME")
     const email = await AsyncStorage.getItem("EMAIL")
     const userId = await AsyncStorage.getItem("USERID")
@@ -58,6 +61,7 @@ const AddCourse = () => {
       userEmail: email,
       userId: userId
     });
+    setLoading(false)
     navigation.goBack()
   }
 
@@ -105,6 +109,7 @@ const AddCourse = () => {
       <View style={styles.gap}>
         <BgButton onClick={()=>uploadCourse()} title={'Upload Course'} color={WHITE} />
       </View>
+      <Loader visible={loading}/>
     </ScrollView>
   );
 };

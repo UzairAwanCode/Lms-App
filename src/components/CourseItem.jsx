@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {
   moderateScale,
   moderateVerticalScale,
   verticalScale,
 } from 'react-native-size-matters';
 import {TEXT_COLOR, WHITE} from '../utils/Colors';
+import { useNavigation } from '@react-navigation/native';
 
 const CourseItem = ({item, index, data}) => {
+  const navigation = useNavigation()
   return (
-    <View
+    <TouchableOpacity
       style={[
         styles.container,
         {
@@ -18,7 +20,9 @@ const CourseItem = ({item, index, data}) => {
               ? moderateVerticalScale(100)
               : moderateVerticalScale(5),
         },
-      ]}>
+      ]}
+      onPress={()=>{navigation.navigate("CourseView", {item:item})}}
+      >
       <Image
         source={
           item.banner
@@ -39,7 +43,7 @@ const CourseItem = ({item, index, data}) => {
       <Text style={[styles.descText, {color: 'green'}]}>
         {'Rs.' + item.price}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 

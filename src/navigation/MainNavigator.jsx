@@ -5,7 +5,9 @@ import ChooseUserType from '../screens/ChooseUserType';
 import Splash from '../screens/Splash';
 import Login from '../screens/login/Login';
 import TutorHome from '../screens/tutor/TutorHome';
+import AddChapter from '../screens/tutor/courses/AddChapter';
 import AddCourse from '../screens/tutor/courses/AddCourse';
+import CourseView from '../screens/tutor/courses/CourseView';
 
 const MainNavigator = () => {
     const Stack = createStackNavigator()
@@ -17,6 +19,8 @@ const MainNavigator = () => {
             <Stack.Screen name='Login' component={Login} options={{headerShown:false}}/>
             <Stack.Screen name='TutorHome' component={TutorHome} options={{headerShown:false}}/>
             <Stack.Screen name='AddCourse' component={AddCourse} options={{headerShown:true}}/>
+            <Stack.Screen name='CourseView' component={CourseView} options={{headerShown:true}}/>
+            <Stack.Screen name='AddChapter' component={AddChapter} options={{headerShown:true}}/>
         </Stack.Navigator>
     </NavigationContainer>
   );
