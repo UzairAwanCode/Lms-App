@@ -8,6 +8,7 @@ import TutorHome from '../screens/tutor/TutorHome';
 import AddChapter from '../screens/tutor/courses/AddChapter';
 import AddCourse from '../screens/tutor/courses/AddCourse';
 import CourseView from '../screens/tutor/courses/CourseView';
+import EditCourse from '../screens/tutor/courses/EditCourse';
 
 const MainNavigator = () => {
     const Stack = createStackNavigator()
@@ -21,6 +22,7 @@ const MainNavigator = () => {
             <Stack.Screen name='AddCourse' component={AddCourse} options={{headerShown:true}}/>
             <Stack.Screen name='CourseView' component={CourseView} options={{headerShown:true}}/>
             <Stack.Screen name='AddChapter' component={AddChapter} options={{headerShown:true}}/>
+            <Stack.Screen name='EditCourse' component={EditCourse} options={{headerShown:true}}/>
         </Stack.Navigator>
     </NavigationContainer>
   );

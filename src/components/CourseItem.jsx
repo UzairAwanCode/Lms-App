@@ -3,13 +3,14 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {
   moderateScale,
   moderateVerticalScale,
+  scale,
   verticalScale,
 } from 'react-native-size-matters';
-import {TEXT_COLOR, WHITE} from '../utils/Colors';
-import { useNavigation } from '@react-navigation/native';
+import {BG_COLOR, TEXT_COLOR, WHITE} from '../utils/Colors';
+import {useNavigation} from '@react-navigation/native';
 
-const CourseItem = ({item, index, data}) => {
-  const navigation = useNavigation()
+const CourseItem = ({item, index, data, onClickOption}) => {
+  const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={[
@@ -21,8 +22,9 @@ const CourseItem = ({item, index, data}) => {
               : moderateVerticalScale(5),
         },
       ]}
-      onPress={()=>{navigation.navigate("CourseView", {item:item})}}
-      >
+      onPress={() => {
+        navigation.navigate('CourseView', {item: item});
+      }}>
       <Image
         source={
           item.banner
@@ -43,6 +45,10 @@ const CourseItem = ({item, index, data}) => {
       <Text style={[styles.descText, {color: 'green'}]}>
         {'Rs.' + item.price}
       </Text>
+
+      <TouchableOpacity style={styles.options} onPress={onClickOption}>
+        <Image source={require("../../assets/more.png")} style={{width:scale(18), height:scale(18)}} />
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 };
@@ -73,5 +79,16 @@ const styles = StyleSheet.create({
     marginLeft: moderateScale(10),
     marginRight: moderateScale(10),
     opacity: 0.8,
+  },
+  options: {
+    width: scale(30),
+    height: scale(30),
+    backgroundColor: BG_COLOR,
+    position: 'absolute',
+    right: moderateScale(10),
+    top: moderateScale(10),
+    borderRadius: scale(15),
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
