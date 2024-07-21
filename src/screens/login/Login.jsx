@@ -52,6 +52,9 @@ const Login = () => {
     if (route.params.screen == 'tutor') {
       navigation.navigate('TutorHome');
     }
+    else{
+      navigation.navigate('LearnerHome')
+    }
   };
   return (
     <View style={styles.container}>
