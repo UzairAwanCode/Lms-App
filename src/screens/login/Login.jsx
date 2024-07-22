@@ -50,9 +50,11 @@ const Login = () => {
     await AsyncStorage.setItem('EMAIL', data.user.email);
     await AsyncStorage.setItem('USERID', data.user.id);
     if (route.params.screen == 'tutor') {
+      await AsyncStorage.setItem("USERTYPE","TUTOR")
       navigation.navigate('TutorHome');
     }
     else{
+      await AsyncStorage.setItem("USERTYPE","LEARNER")
       navigation.navigate('LearnerHome')
     }
   };

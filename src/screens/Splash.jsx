@@ -15,8 +15,13 @@ const Splash = () => {
 
   const check = async()=>{
     const userId = await AsyncStorage.getItem("USERID")
+    const userType = await AsyncStorage.getItem("USERTYPE")
     if(userId!=null){
-      navigation.navigate("TutorHome")
+      if(userType==="TUTOR"){
+        navigation.navigate("TutorHome")
+      } else{
+        navigation.navigate("LearnerHome")
+      }
     }
     else{
       navigation.navigate("ChooseUserType")
