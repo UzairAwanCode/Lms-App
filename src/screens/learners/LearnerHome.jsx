@@ -17,7 +17,7 @@ const LearnerHome = () => {
           tabBarIcon: ({size, focused}) => {
             return (
               <Image
-                source={require('../../../assets/courses.png')}
+                source={focused ? require('../../../assets/home-fill.png') : require('../../../assets/home.png')}
                 style={{
                   tintColor: focused ? THEME_COLOR : 'black',
                   width: size,
@@ -26,17 +26,7 @@ const LearnerHome = () => {
               />
             );
           },
-          tabBarLabel: ({size, focused}) => {
-            return (
-              <Text
-                style={{
-                  color: focused ? THEME_COLOR : TEXT_COLOR,
-                  fontSize: size,
-                }}>
-                {'Courses'}
-              </Text>
-            );
-          },
+          tabBarLabel: '',
         }}
         name="Home"
         component={Home}
@@ -46,7 +36,7 @@ const LearnerHome = () => {
           tabBarIcon: ({size, focused}) => {
             return (
               <Image
-                source={require('../../../assets/history.png')}
+                source={require('../../../assets/search.png')}
                 style={{
                   tintColor: focused ? THEME_COLOR : 'black',
                   width: size,
@@ -55,17 +45,7 @@ const LearnerHome = () => {
               />
             );
           },
-          tabBarLabel: ({size, focused}) => {
-            return (
-              <Text
-                style={{
-                  color: focused ? THEME_COLOR : TEXT_COLOR,
-                  fontSize: size,
-                }}>
-                {'Course Sell'}
-              </Text>
-            );
-          },
+          tabBarLabel: '',
         }}
         name="Search"
         component={Search}
@@ -75,7 +55,7 @@ const LearnerHome = () => {
           tabBarIcon: ({size, focused}) => {
             return (
               <Image
-                source={require('../../../assets/history.png')}
+                source={focused ? require('../../../assets/fav-fill.png') : require('../../../assets/fav.png')}
                 style={{
                   tintColor: focused ? THEME_COLOR : 'black',
                   width: size,
@@ -84,52 +64,17 @@ const LearnerHome = () => {
               />
             );
           },
-          tabBarLabel: ({size, focused}) => {
-            return (
-              <Text
-                style={{
-                  color: focused ? THEME_COLOR : TEXT_COLOR,
-                  fontSize: size,
-                }}>
-                {'Favourities'}
-              </Text>
-            );
-          },
+          tabBarLabel: '',
         }}
         name="Favourities"
         component={Favourities}
       />
-      <Bottom.Screen options={{
-          tabBarIcon: ({size, focused}) => {
-            return (
-              <Image
-                source={require('../../../assets/history.png')}
-                style={{
-                  tintColor: focused ? THEME_COLOR : 'black',
-                  width: size,
-                  height: size,
-                }}
-              />
-            );
-          },
-          tabBarLabel: ({size, focused}) => {
-            return (
-              <Text
-                style={{
-                  color: focused ? THEME_COLOR : TEXT_COLOR,
-                  fontSize: size,
-                }}>
-                {'Cart'}
-              </Text>
-            );
-          },
-        }} name="Cart" component={Cart} />
       <Bottom.Screen
         options={{
           tabBarIcon: ({size, focused}) => {
             return (
               <Image
-                source={require('../../../assets/user.png')}
+              source={focused ? require('../../../assets/cart-fill.png') : require('../../../assets/cart.png')}
                 style={{
                   tintColor: focused ? THEME_COLOR : 'black',
                   width: size,
@@ -138,17 +83,26 @@ const LearnerHome = () => {
               />
             );
           },
-          tabBarLabel: ({size, focused}) => {
+          tabBarLabel: '',
+        }}
+        name="Cart"
+        component={Cart}
+      />
+      <Bottom.Screen
+        options={{
+          tabBarIcon: ({size, focused}) => {
             return (
-              <Text
+              <Image
+              source={focused ? require('../../../assets/user-fill.png') : require('../../../assets/user.png')}
                 style={{
-                  color: focused ? THEME_COLOR : TEXT_COLOR,
-                  fontSize: size,
-                }}>
-                {'Profile'}
-              </Text>
+                  tintColor: focused ? THEME_COLOR : 'black',
+                  width: size,
+                  height: size,
+                }}
+              />
             );
           },
+          tabBarLabel: '',
         }}
         name="Profile"
         component={Profile}
