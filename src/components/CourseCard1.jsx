@@ -1,15 +1,19 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {moderateScale, scale} from 'react-native-size-matters';
-import {BG_COLOR, TEXT_COLOR} from '../utils/Colors';
+import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { moderateScale, scale } from 'react-native-size-matters';
+import { BG_COLOR, TEXT_COLOR } from '../utils/Colors';
+import { useNavigation } from '@react-navigation/native';
 
 const CourseCard1 = ({item}) => {
+  const navigation = useNavigation()
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={()=>{
+      navigation.navigate("CourseDetails", {data:item})
+    }}>
       <Image source={{uri: item.banner}} style={styles.banner} />
       <Text style={styles.title}>{item.title}</Text>
       <Text style={styles.price}>{'PKR ' + item.price}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -36,12 +40,12 @@ const styles = StyleSheet.create({
     margin: moderateScale(5),
     color: TEXT_COLOR,
     width: '90%',
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   price: {
     fontSize: moderateScale(16),
     fontWeight: '600',
     marginLeft: moderateScale(10),
-    color: "green",
+    color: 'green',
   },
 });
