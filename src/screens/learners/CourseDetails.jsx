@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, StyleSheet, FlatList, ScrollView} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  FlatList,
+  ScrollView,
+} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import {useIsFocused, useRoute} from '@react-navigation/native';
 import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
@@ -11,11 +18,11 @@ import BorderButton from '../../components/BorderButton';
 const CourseDetails = () => {
   const route = useRoute();
   const [courseData, setCourseData] = useState(null);
-  const [chapters, setChapters] = useState([1,1])
+  const [chapters, setChapters] = useState([]);
   const isFocused = useIsFocused();
   useEffect(() => {
     getCourseDetails();
-    getChapters()
+    getChapters();
   }, [isFocused]);
 
   const getCourseDetails = async () => {
@@ -37,26 +44,36 @@ const CourseDetails = () => {
     setChapters(temp);
   };
   return (
-    <ScrollView style={styles.container}>
-      {courseData != null && (
-        <Image source={{uri: courseData.banner}} style={styles.banner} />
-      )}
-      {courseData != null && (
-        <Text style={styles.title}>{courseData.title}</Text>
-      )}
-      {courseData != null && (
-        <Text style={styles.desc}>{courseData.description}</Text>
-      )}
-      <View style={styles.seperator}></View>
-      <Text style={styles.title}>Chapters</Text>
-      {/* <FlatList data={chapters} renderItem={({item,index})=>{
-        return <ChapterItem item={item} index={index}/>
-      }}/> */}
-      <Text style={styles.title}>Reviews</Text>
-      <View style={styles.btnMargin}>
-        <BorderButton title={"Post Review"}/>
-      </View>
-    </ScrollView>
+    <FlatList
+      data={[1]}
+      renderItem={(item, index) => {
+        return (
+          <View style={styles.container}>
+            {courseData != null && (
+              <Image source={{uri: courseData.banner}} style={styles.banner} />
+            )}
+            {courseData != null && (
+              <Text style={styles.title}>{courseData.title}</Text>
+            )}
+            {courseData != null && (
+              <Text style={styles.desc}>{courseData.description}</Text>
+            )}
+            <View style={styles.seperator}></View>
+            <Text style={styles.title}>Chapters</Text>
+            <FlatList
+              data={chapters}
+              renderItem={({item, index}) => {
+                return <ChapterItem item={item} index={index} />;
+              }}
+            />
+            <Text style={styles.title}>Reviews</Text>
+            <View style={styles.btnMargin}>
+              <BorderButton title={'Post Review'} />
+            </View>
+          </View>
+        );
+      }}
+    />
   );
 };
 
@@ -92,7 +109,7 @@ const styles = StyleSheet.create({
     opacity: 0.4,
     marginTop: moderateScale(20),
   },
-  btnMargin:{
-    marginBottom: verticalScale(100)
-  }
+  btnMargin: {
+    marginBottom: verticalScale(100),
+  },
 });
