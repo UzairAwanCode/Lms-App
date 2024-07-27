@@ -1,22 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  FlatList,
-  ScrollView,
-} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-import {useIsFocused, useRoute} from '@react-navigation/native';
-import {moderateScale, scale, verticalScale} from 'react-native-size-matters';
-import {BG_COLOR, TEXT_COLOR} from '../../utils/Colors';
-import ChapterItem from '../../components/ChapterItem';
-import CourseCard2 from '../../components/CourseCard2';
+import {useIsFocused, useNavigation, useRoute} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
+import {FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {moderateScale, verticalScale} from 'react-native-size-matters';
+import BgButton from '../../components/BgButton';
 import BorderButton from '../../components/BorderButton';
+import ChapterItem from '../../components/ChapterItem';
+import {BG_COLOR, TEXT_COLOR} from '../../utils/Colors';
 
 const CourseDetails = () => {
   const route = useRoute();
+  const navigation = useNavigation();
   const [courseData, setCourseData] = useState(null);
   const [chapters, setChapters] = useState([]);
   const isFocused = useIsFocused();
@@ -58,6 +52,7 @@ const CourseDetails = () => {
             {courseData != null && (
               <Text style={styles.desc}>{courseData.description}</Text>
             )}
+            <BgButton title={'Buy Course'} color={'white'} />
             <View style={styles.seperator}></View>
             <Text style={styles.title}>Chapters</Text>
             <FlatList
@@ -68,7 +63,15 @@ const CourseDetails = () => {
             />
             <Text style={styles.title}>Reviews</Text>
             <View style={styles.btnMargin}>
-              <BorderButton title={'Post Review'} />
+              <BorderButton
+                title={'Post Review'}
+                onClick={() =>
+                  navigation.navigate('AddReview', {
+                    courseId: route.params.data.courseId,
+                    title: courseData.title,
+                  })
+                }
+              />
             </View>
           </View>
         );
