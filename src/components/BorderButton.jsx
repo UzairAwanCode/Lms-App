@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { moderateScale, moderateVerticalScale, verticalScale } from 'react-native-size-matters';
-import { BG_COLOR, TEXT_COLOR, THEME_COLOR } from '../utils/Colors';
+import { BG_COLOR, BORDER_COLOR, TEXT_COLOR, THEME_COLOR } from '../utils/Colors';
 
 const BorderButton = ({bg, title, onClick, color}) => {
   return (
     <TouchableOpacity
-      style={[styles.btn, {borderColor: bg ? bg : THEME_COLOR}]}
+      style={[styles.btn, {borderColor: bg ? bg : BORDER_COLOR}]}
       onPress={onClick}>
       <Text style={[styles.title, {color: color ? color : TEXT_COLOR}]}>
         {title}
