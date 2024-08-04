@@ -45,7 +45,7 @@ const Login = () => {
 
   const storeData = async data => {
     const collection = route.params.screen == 'tutor' ? 'tutors' : 'learners';
-    await firestore().collection(collection).doc(data.user.id).set(data);
+    await firestore().collection(collection).doc(data.user.id).set({...data, favCourses:[]});
     await AsyncStorage.setItem('NAME', data.user.name);
     await AsyncStorage.setItem('EMAIL', data.user.email);
     await AsyncStorage.setItem('USERID', data.user.id);
