@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 
 const CourseCard1 = ({item, isFav, onFavClick}) => {
   const navigation = useNavigation()
-  
   return (
     <TouchableOpacity style={styles.card} onPress={()=>{
       navigation.navigate("CourseDetails", {data:item})

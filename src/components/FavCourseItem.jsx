@@ -3,22 +3,22 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {moderateScale, scale} from 'react-native-size-matters';
 import {BG_COLOR, TEXT_COLOR} from '../utils/Colors';
 
-const CourseCard2 = ({item, isFav, onFavClick}) => {
+const FavCourseItem = ({item, onFavClick}) => {
   return (
     <View style={styles.card}>
       <Image source={{uri: item.banner}} style={styles.banner} />
-      <View style={{width:"50%"}}>
+      <View>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.price}>{'PKR ' + item.price}</Text>
       </View>
       <TouchableOpacity style={styles.favView} onPress={()=>onFavClick()}>
-        <Image source={isFav ? require("../../assets/fav-fill.png") : require("../../assets/fav.png")} style={[styles.fav,{tintColor: isFav?'red':'black'}]}/>
+        <Image source={require("../../assets/fav-fill.png")} style={[styles.fav,{tintColor: 'red'}]}/>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default CourseCard2;
+export default FavCourseItem;
 
 const styles = StyleSheet.create({
   card: {
@@ -56,6 +56,9 @@ const styles = StyleSheet.create({
     height: scale(40),
     backgroundColor: "#fff",
     borderRadius: scale(20),
+    position: 'absolute',
+    right: 10,
+    top: 10,
     justifyContent: 'center',
     alignItems:'center'
   },

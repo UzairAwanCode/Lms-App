@@ -1,21 +1,21 @@
-import {useNavigation} from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
-import {moderateScale} from 'react-native-size-matters';
-import {TEXT_COLOR} from '../../../utils/Colors';
+import { useIsFocused } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { moderateScale } from 'react-native-size-matters';
 import CourseCard1 from '../../../components/CourseCard1';
 import CourseCard2 from '../../../components/CourseCard2';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TEXT_COLOR } from '../../../utils/Colors';
 
 const Home = () => {
-  const navigation = useNavigation();
   const [trendingCourses, setTrendingCourses] = useState([]);
   const [favCourses, setFavCourses] = useState([])
+  const isFocused = useIsFocused()
   useEffect(() => {
     getCourses();
     getFavs()
-  }, []);
+  }, [isFocused]);
 
   const getCourses = async () => {
     const res = await firestore().collection('courses').get();
@@ -34,20 +34,19 @@ const Home = () => {
   }
 
   const checkFav = (courseId)=>{
-    let tempCourses = favCourses
+    let tempCourses = favCourses  
+    
     let isFav = false
     tempCourses.map((item)=>{
       if(item.courseId == courseId){
         isFav= true
       }
-    })
-    
-    return isFav
+    })  
+    return false
   }
 
   const updateFavCourses = async(status, item)=>{
     const userId = await AsyncStorage.getItem("USERID")
-    
     let favs = []
     if(status){
       favs = favCourses.filter(x => x.courseId != item.courseId)
@@ -62,6 +61,7 @@ const Home = () => {
     getCourses()
     getFavs()
   }
+
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Trending Courses</Text>
@@ -71,7 +71,7 @@ const Home = () => {
           showsHorizontalScrollIndicator={false}
           data={trendingCourses}
           renderItem={({item, index}) => {
-            return <CourseCard1 item={item} isFav={()=>checkFav(item.courseId)} onFavClick={()=>updateFavCourses(checkFav(item.courseId),item)}/>;
+            return <CourseCard1 onFavClick={()=>updateFavCourses(checkFav(item.courseId),item)} item={item} isFav={checkFav(item.courseId)} />;
           }}
         />
       </View>
@@ -82,7 +82,7 @@ const Home = () => {
           showsHorizontalScrollIndicator={false}
           data={trendingCourses}
           renderItem={({item, index}) => {
-            return <CourseCard2 item={item}/>;
+            return <CourseCard2 item={item} isFav={()=>checkFav(item.courseId)} onFavClick={()=>updateFavCourses(checkFav(item.courseId),item)}/>;
           }}
         />
       </View>
